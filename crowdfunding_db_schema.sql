@@ -1,9 +1,14 @@
-﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+﻿-- Dropping Tables in case I need to start over.
 
+DROP TABLE IF EXISTS "crowdfunding_db"."public"."campaign" CASCADE;
+DROP TABLE IF EXISTS "crowdfunding_db"."public"."category" CASCADE;
+DROP TABLE IF EXISTS "crowdfunding_db"."public"."subcategory" CASCADE;
+DROP TABLE IF EXISTS "crowdfunding_db"."public"."contacts" CASCADE;
+
+--- DATA MODELING
 
 CREATE TABLE "subcategory" (
-    "subcategory_id" int   NOT NULL,
+    "subcategory_id" varchar   NOT NULL,
     "sub-category" varchar   NOT NULL,
     CONSTRAINT "pk_subcategory" PRIMARY KEY (
         "subcategory_id"
@@ -11,7 +16,7 @@ CREATE TABLE "subcategory" (
 );
 
 CREATE TABLE "category" (
-    "category_id" int   NOT NULL,
+    "category_id" varchar   NOT NULL,
     "category" varchar   NOT NULL,
     CONSTRAINT "pk_category" PRIMARY KEY (
         "category_id"
@@ -41,13 +46,8 @@ CREATE TABLE "campaign" (
     "currency" varchar   NOT NULL,
     "launched_date" date   NOT NULL,
     "end_date" date   NOT NULL,
-    "staff_pick" boolean   NOT NULL,
-    "spotlight" boolean   NOT NULL,
-    "category_&_sub-category" varchar   NOT NULL,
-    "category" varchar   NOT NULL,
-    "sub-category" varchar   NOT NULL,
-    "category_id" int   NOT NULL,
-    "subcategory_id" int   NOT NULL,
+    "category_id" varchar   NOT NULL,
+    "subcategory_id" varchar   NOT NULL,
     CONSTRAINT "pk_campaign" PRIMARY KEY (
         "cf_id"
      )
@@ -61,4 +61,14 @@ REFERENCES "category" ("category_id");
 
 ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_subcategory_id" FOREIGN KEY("subcategory_id")
 REFERENCES "subcategory" ("subcategory_id");
+
+--- IMPORTING files
+-- order : category, subcategory, contacts, campaign to respect PKs and FKs.
+
+--DATA ENGINEERING
+-- Listing each table
+SELECT * from campaign --worked
+SELECT * from category --worked
+SELECT * from contacts --worked
+SELECT * from subcategory --worked
 
